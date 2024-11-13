@@ -10,6 +10,11 @@ import matplotlib.pyplot as plt
 warnings.filterwarnings("ignore")
 # %%
 
+# df = pd.read_csv('data/return_predictability_data.csv')
+
+# with open('return_predictability.pkl', 'wb') as f:
+#     pickle.dump(df, f)
+
 with open('return_predictability.pkl', 'rb') as f:
     df = pickle.load(f)
     print(df.head())
@@ -24,14 +29,14 @@ df['Date'] = [''.join(x.split('-')[0:2]) for x in df.DATE]
 
 df = df.merge(ff_research[['Date', 'macro_mkt-rf']], on = 'Date', how ='inner' )
 
-df= df[~np.isnan(df['bm'])]
-df=df[~np.isnan(df['mvel1'])]
+ff3= df[~np.isnan(df['bm'])]
+ff3=ff3[~np.isnan(df['mvel1'])]
 
 
 # %%
 from sklearn.model_selection import train_test_split
-X = df[['macro_mkt-rf', 'macro_tbl', 'mvel1', 'bm']]
-y = df[['risk_premium']]
+X = ff3[['macro_mkt-rf', 'macro_tbl', 'mvel1', 'bm']]
+y = ff3[['risk_premium']]
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
@@ -102,3 +107,43 @@ def plot_metrics(vals, ylabel, objective):
 plot_metrics(mses, 'MSE', 'min')
 plot_metrics(rpds, 'RPD', 'max')
 # %%
+##############################################
+# Fama French 5 Factor Model
+###############################################
+
+df = df[['macro_mkt-rf', 'macro_tbl', 'mvel1', 'bm', 'operprof', 'grcapx', 'risk_premium']]
+
+df= df[~np.isnan(df['bm'])]
+df=df[~np.isnan(df['mvel1'])]
+df=df[~np.isnan(df['operprof'])]
+df=df[~np.isnan(df['grcapx'])]
+
+X = df[['macro_mkt-rf', 'macro_tbl', 'mvel1', 'bm', 'operprof', 'grcapx']]
+y = df['risk_premium'] 
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+cv = KFold(n_splits=5, shuffle=True, random_state=45)
+r2 = make_scorer(r2_score)
+
+r2_val_score = cross_val_score(lm, X_train, y_train, cv=cv, scoring=r2)
+scores = [r2_val_score.mean()]
+scores
+# %%
+
+r2s = []
+mses = []
+rpds = []
+xticks = np.arange(1, 6)
+for n_comp in xticks:
+    y_cv, r2, mse, rpd = optimise_pls_cv(X_train, y_train, n_comp)
+    r2s.append(r2)
+    mses.append(mse)
+    rpds.append(rpd)
+
+
+plot_metrics(mses, 'MSE', 'min')
+plot_metrics(rpds, 'RPD', 'max')
+
+# %%
+
