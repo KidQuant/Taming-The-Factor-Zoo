@@ -20,3 +20,14 @@ ff_research.head()
 
 df['Date'] = [''.join(x.split('-')[0:2]) for x in df.DATE]
 # %%
+
+price_trend_ff = df.loc[:, ['mom1m', 
+                             'mom12m', 
+                             'chmom', 
+                             'indmom',
+                             'maxret',
+                             'mom36m',
+                             ]]
+
+df[np.isnan(df['mom36m'])]['DATE'].unique()
+# %%
