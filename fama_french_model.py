@@ -35,10 +35,16 @@ ff3=ff3[~np.isnan(df['mvel1'])]
 
 # %%
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+
 X = ff3[['macro_mkt-rf', 'macro_tbl', 'mvel1', 'bm']]
 y = ff3[['risk_premium']]
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+stdSc = StandardScaler()
+X_train = stdSc.fit_transform(X_train.astype(float))
+X_test = stdSc.fit_transform(X_test.astype(float))
 
 
 # %%
@@ -106,6 +112,8 @@ def plot_metrics(vals, ylabel, objective):
 
 plot_metrics(mses, 'MSE', 'min')
 plot_metrics(rpds, 'RPD', 'max')
+
+
 # %%
 ##############################################
 # Fama French 5 Factor Model
@@ -134,7 +142,8 @@ scores
 r2s = []
 mses = []
 rpds = []
-xticks = np.arange(1, 6)
+n_comp = 4
+xticks = np.arange(1, 5)
 for n_comp in xticks:
     y_cv, r2, mse, rpd = optimise_pls_cv(X_train, y_train, n_comp)
     r2s.append(r2)
