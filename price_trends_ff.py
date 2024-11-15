@@ -19,8 +19,8 @@ ff_research = pd.read_csv('data/ff_factors.csv')
 ff_research.head()
 
 df['Date'] = [''.join(x.split('-')[0:2]) for x in df.DATE]
+df = df.merge(ff_research[['Date', 'macro_mkt-rf']], on = 'Date', how ='inner' )
 # %%
-ff_research
 price_trend_ff = df.loc[:, ['DATE',
                             'mom1m', 
                              'mom12m', 
