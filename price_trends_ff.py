@@ -19,8 +19,11 @@ ff_research = pd.read_csv('data/ff_factors.csv')
 ff_research.head()
 
 df['Date'] = [''.join(x.split('-')[0:2]) for x in df.DATE]
+ff_research['Date'] = ff_research['Date'].apply(str)
 df = df.merge(ff_research[['Date', 'macro_mkt-rf']], on = 'Date', how ='inner' )
-# %%
+#%%
+
+
 price_trend_ff = df.loc[:, ['DATE',
                             'mom1m', 
                              'mom12m', 
@@ -34,7 +37,8 @@ price_trend_ff = df.loc[:, ['DATE',
                              'mvel1', 
                              'bm', 
                              'operprof', 
-                             'grcapx']]
+                             'grcapx',
+                             'risk_premium']]
 
 price_trend_ff.interpolate(method='linear', 
                            limit_direction='backward', 
@@ -43,11 +47,17 @@ price_trend_ff.interpolate(method='linear',
 #%%
 from sklearn.model_selection import train_test_split
 X = price_trend_ff[[ 'mom1m', 
-                    'mom12m', 
-                    'chmom', 
-                    'indmom', 
-                    'maxret',
-                    'mom36m']]
+                             'mom12m', 
+                             'chmom', 
+                             'indmom',
+                             'maxret',
+                             'mom36m',
+                             'macro_mkt-rf', 
+                             'macro_tbl', 
+                             'mvel1', 
+                             'bm', 
+                             'operprof', 
+                             'grcapx']]
 
 y = price_trend_ff[['risk_premium']]
 
