@@ -45,3 +45,19 @@ The project follows a structured approach:
 4. **Model Evaluation**: Assessing models based on predictive performance metrics like the Out-of-Sample (OOS) $R^2$ and Mean Squared Error (MSE).
 
 5. **Portfolio Analysis**: Constructing equal-weight portfolios of the top 100 stocks based on predicted risk-premiums and evaluating their performance.
+
+## 📊 Results 
+
+The project evaluated a wide array of statistical learning models -- ranging from simple linear regression to complex neural networks -- for predicting stock-level risk premiums and constructing portfolios.
+
+### Simple Model
+
+* **Performance**: Among the simple models, **Huber Regression** consistently outperformed basic linear regression, especially in handling outliers.
+
+* **Best Performing Simple Model**: The **Linear Regression with all features (LR-Full)** achieved the highest OOS $R^2$ of 5.27%, demonstrating that including more variables increases predictve power-albeit with diminishing returns and potential overfitting risks.
+
+* **Portfolio Performance**: The **LR-Full** model also delievered the highest Sharpe ratio among simple models, although actual returns remained negative due to the challenging nature of the dataset.
+
+## Complex Models
+
+* **Performance**: The **Principal Components Regressions (PCR)** emerged as the most predictive model with an OOS $R^2$ of 6.12%, followed by **Elastic Net** and **Neural Network (NN-5)**
