@@ -58,6 +58,26 @@ The project evaluated a wide array of statistical learning models -- ranging fro
 
 * **Portfolio Performance**: The **LR-Full** model also delievered the highest Sharpe ratio among simple models, although actual returns remained negative due to the challenging nature of the dataset.
 
-## Complex Models
+### Complex Models
 
 * **Performance**: The **Principal Components Regressions (PCR)** emerged as the most predictive model with an OOS $R^2$ of 6.12%, followed by **Elastic Net** and **Neural Network (NN-5)**
+
+* **Portfolio Insight**:
+
+    * **Best Accuracy**: **Partial Least Squares (PLS)** generated the model accurate predictions relative to actual returns.
+
+    * **Best Risk-Adjusted Return**: **Neural Network (NN-2) achieved the highest Sharpe ratios.
+
+    * **Most Predictive Model**: **PCR** had the highest $R^2$ but underperformed on financial return metrics.
+
+### Feature Importance
+
+* **Simple Models**: Key drivers included dividend-to-price, beta, sales-to-receivables, and momentum indicators.
+
+* **Complex Models**: Elastic Net and PLS favored macroeconomic variables, while PCR and GBRT leaned toward fundamental and liquidity-based features.
+
+## Conclusion
+
+While advanced machine learning models like PCR and neural networks offer higher predictive accuracy for individual stock returns, this does **not necessarily translate to better-performing portfolios**. The core insight is that **high individual-level** $R^2$ does not guarentee **superior portfolio-level performance**, largely due to the **low signal-to-noise ratio** inherent in financial data.
+
+The study underscores a nuanced trade-off: **statistical learning is valuable**, but **model complexity must be balanced** against interpretability and practical portfolio construction goals. Among all models tested, **Partial Least Squares (PLS)** was identified as offering the best combination of accuracy, risk-adjusted return, and interpretability--making it a strong candidate for real-world financial applications.
